@@ -1,0 +1,15 @@
+prefix: "Duels"
+Sumo:
+  - "Sumo#1"
+Sumo#1:
+  spawn:
+    a: "0:0:0"
+    b: "0:0:0"
+  scoreboard_title: "Sumo"
+  scoreboard:
+    - "存活人数: {livePlayers}"
+    - "blockpixel.cn"
+  vCmd:
+    - "say @p 赢得了比赛!"
+  dCmd:
+    - "say @p 输掉了比赛!"
