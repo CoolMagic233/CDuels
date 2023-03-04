@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="CDuels">
+    <output-path>$PROJECT_DIR$/out/artifacts/CDuels</output-path>
+    <root id="archive" name="CDuels.jar">
+      <element id="module-output" name="CDuels" />
+    </root>
+  </artifact>
+</component>
