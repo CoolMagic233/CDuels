@@ -10,6 +10,7 @@ import me.coolmagic.cduels.Main;
 import scoreboard.ScoreboardUtil;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Arena {
@@ -44,15 +45,13 @@ public class Arena {
     }
 
     public void join(Player player){
-        if(arenaStatus < 1){
-            setArenaStatus(1);
-        }
+
         if(arenaStatus == 2){
             player.sendMessage("["+Main.getInstance().getPrefix()+"]"+ " This arena is started!");
             return;
         }
         if(livePlayers.contains(player) || diedPlayers.contains(player) ){
-            player.sendMessage("You already in arena!");
+            player.sendMessage("["+Main.getInstance().getPrefix()+"]"+ "You already in arena!");
             return;
         }
         setWait(player);
@@ -101,27 +100,37 @@ public class Arena {
 
         level.setRaining(false);
         level.setTime(12000);
+        player.setHealth(player.getMaxHealth());
+        player.getFoodData().setFoodLevel(player.getFoodData().getMaxLevel());
     }
     public void onGameEnd(){
-        livePlayers.forEach(player -> {
-            Main.getInstance().getCommandList(name,"vCmd").forEach(s -> Main.getInstance().getServer().dispatchCommand(new ConsoleCommandSender(),s.replace("@p",player.getName())));
-            sendMessageForArenasPlayers(Main.getInstance().getMessage(name,"vic").replace("@p",player.getName()));
-            quit(player);
-        });
-        diedPlayers.forEach(player -> {
-            Main.getInstance().getCommandList(name,"dCmd").forEach(s -> Main.getInstance().getServer().dispatchCommand(new ConsoleCommandSender(),s.replace("@p",player.getName())));
-            quit(player);
-        });
-        setArenaStatus(-1);
+        for (Player player : livePlayers) {
+            Main.getInstance().getCommandList(name, "vCmd").forEach(s -> Main.getInstance().getServer().dispatchCommand(new ConsoleCommandSender(), s.replace("@p", player.getName())));
+            sendMessageForArenasPlayers(Main.getInstance().getMessage(name, "vic").replace("@p", player.getName()));
+            player.setGamemode(2);
+            player.getInventory().clearAll();
+            ScoreboardUtil.getScoreboard().closeScoreboard(player);
+            sendMessageForArenasPlayers(Main.getInstance().getMessage(name,"quit").replace("@p",player.getName()).replace("@maxPlayer",String.valueOf(2)).replace("@minPlayer",String.valueOf(livePlayers.size() + diedPlayers.size())));
+            player.teleport(Main.getInstance().getServer().getDefaultLevel().getSafeSpawn());
+        }
+        for (Player player : diedPlayers) {
+            Main.getInstance().getCommandList(name, "dCmd").forEach(s -> Main.getInstance().getServer().dispatchCommand(new ConsoleCommandSender(), s.replace("@p", player.getName())));
+            player.setGamemode(2);
+            player.getInventory().clearAll();
+            ScoreboardUtil.getScoreboard().closeScoreboard(player);
+            sendMessageForArenasPlayers(Main.getInstance().getMessage(name,"quit").replace("@p",player.getName()).replace("@maxPlayer",String.valueOf(2)).replace("@minPlayer",String.valueOf(livePlayers.size() + diedPlayers.size())));
+            player.teleport(Main.getInstance().getServer().getDefaultLevel().getSafeSpawn());
+        }
+        setArenaStatus(1);
         livePlayers.clear();
         diedPlayers.clear();
     }
     public void quit(Player player){
         player.setGamemode(2);
         player.getInventory().clearAll();
-        ScoreboardUtil.getScoreboard().closeScoreboard(player);
-        livePlayers.remove(player);
         diedPlayers.remove(player);
+        livePlayers.remove(player);
+        ScoreboardUtil.getScoreboard().closeScoreboard(player);
         sendMessageForArenasPlayers(Main.getInstance().getMessage(name,"quit").replace("@p",player.getName()).replace("@maxPlayer",String.valueOf(2)).replace("@minPlayer",String.valueOf(livePlayers.size() + diedPlayers.size())));
         player.teleport(Main.getInstance().getServer().getDefaultLevel().getSafeSpawn());
     }

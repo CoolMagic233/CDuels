@@ -4,6 +4,7 @@ import cn.nukkit.Player;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.entity.EntityDamageEvent;
+import cn.nukkit.event.player.PlayerFoodLevelChangeEvent;
 import cn.nukkit.event.player.PlayerInteractEvent;
 import cn.nukkit.item.Item;
 import cn.nukkit.level.Level;
@@ -73,6 +74,15 @@ public class Main extends PluginBase implements Listener{
         Arena arena = Main.getInstance().getArenaByName(player.getLevel().getName());
         if(arena.getArenaStatus() < 0) return;
         if(handItem.getId() == 341 && handItem.getCustomName().equals("Quit Arena")) arena.quit(player);
+    }
+    @EventHandler
+    public void onInv(PlayerFoodLevelChangeEvent e){
+        Player player = e.getPlayer();
+        Arena arena = Main.getInstance().getArenaByName(player.getLevel().getName());
+        if(arena == null) return;
+        if(!arena.isPlaying(player)) return;
+        if(arena.getArenaStatus() < 0) return;
+        e.setCancelled();
     }
 
     public Map<ArenaMode, Arena> getArenaModeMap() {

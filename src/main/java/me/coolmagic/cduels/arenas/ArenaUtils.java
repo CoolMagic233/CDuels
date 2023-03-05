@@ -23,8 +23,8 @@ public class ArenaUtils {
                     if(String.valueOf(entry.getKey()).toLowerCase().equals(arenaMode)){
                         Arena arena = entry.getValue();
                         if ((arena.getArenaStatus() == 1) && arena.getAllPlayerCount() == 0) {
-                            arena.join(player1);
-                            arena.join(inviter);
+                            duels.getServer().dispatchCommand(player1,"cduels join "+arena.getName());
+                            duels.getServer().dispatchCommand(inviter,"cduels join "+arena.getName());
                             return;
                         }
                     }
