@@ -23,6 +23,7 @@ import java.util.Map;
 
 public class Main extends PluginBase implements Listener{
     private Map<String, Arena> arenas = new HashMap<>();
+    private Map<ArenaMode, Arena> arenaModeMap = new HashMap<>();
     private static Config config;
     private static Main plugin;
     private static String prefix;
@@ -73,6 +74,11 @@ public class Main extends PluginBase implements Listener{
         if(arena.getArenaStatus() < 0) return;
         if(handItem.getId() == 341 && handItem.getCustomName().equals("Quit Arena")) arena.quit(player);
     }
+
+    public Map<ArenaMode, Arena> getArenaModeMap() {
+        return arenaModeMap;
+    }
+
     public void loadRooms(){
         prefix = config.getString("prefix");
         //加载Sumo房间
@@ -83,6 +89,7 @@ public class Main extends PluginBase implements Listener{
             if(this.getServer().getLevelByName(s) != null) {
                 this.getLogger().info("识别到房间->" + s);
                 arenas.put(s,new Arena(s,this.getServer().getLevelByName(s), ArenaMode.Sumo));
+                arenaModeMap.put(ArenaMode.Sumo,new Arena(s,this.getServer().getLevelByName(s), ArenaMode.Sumo));
             }else {
                 this.getLogger().warning("房间"+s+"所占用的世界不存在!");
                 this.getServer().shutdown();

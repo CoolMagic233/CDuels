@@ -136,6 +136,9 @@ public class Arena {
         livePlayers.forEach(player -> player.sendMessage("["+ Main.getInstance().getPrefix()+"]"+message));
         diedPlayers.forEach(player -> player.sendMessage("["+ Main.getInstance().getPrefix()+"]"+message));
     }
+    public int getAllPlayerCount(){
+        return (getLivePlayers().size() + getDiedPlayers().size());
+    }
 
     public String getName() {
         return name;
@@ -152,4 +155,5 @@ public class Arena {
     public List<Player> getDiedPlayers() {
         return diedPlayers;
     }
+
 }

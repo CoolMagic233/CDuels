@@ -29,13 +29,11 @@ public class ArenaThread extends Task {
             }
             if(a.getArenaStatus() == 2) {
                 if (a.getLivePlayers().size() <= 1) {
-                    a.sendMessageForArenasPlayers("aaa");
                     a.onGameEnd();
                 }
             }
             if(a.getArenaStatus() == 1){
                 if(a.getLivePlayers().size() > 1){
-                    a.sendMessageForArenasPlayers("abc");
                     a.onGameStart();
                 }
             }
