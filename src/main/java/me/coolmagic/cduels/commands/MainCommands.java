@@ -22,6 +22,11 @@ public class MainCommands extends Command {
             for (Arena a : Main.getInstance().getArenas().values()) {
                 if (a.getArenaStatus() == 1) {
                     if (commandSender instanceof Player) {
+                        if ((a.getDiedPlayers().size() + a.getLivePlayers().size()) == 1) {
+                            a.join((Player) commandSender);
+                            commandSender.sendMessage(Main.getInstance().getMessage(a.getName(), "mate"));
+                            return true;
+                        }
                         if ((a.getDiedPlayers().size() + a.getLivePlayers().size()) < 2) {
                             a.join((Player) commandSender);
                             commandSender.sendMessage(Main.getInstance().getMessage(a.getName(), "mate"));
@@ -84,7 +89,14 @@ public class MainCommands extends Command {
                     commandSender.sendMessage("You must use command as a player!");
                 }
             }
+            if (strings[0].equals("list")) {
+                commandSender.sendMessage("======Arena List ["+Main.getInstance().getArenas().size() + "]======");
+                for (Arena a : Main.getInstance().getArenas().values()) {
+                    commandSender.sendMessage("Arena:"+a.getName() +",Status:"+a.getArenaStatus()+",Playing:"+a.getAllPlayerCount());
+                }
+                return true;
+            }
         }
-        return false;
+            return false;
     }
 }

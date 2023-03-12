@@ -21,4 +21,25 @@ Sumo#1:
     death: "玩家 @p 被 @d 撅掉了"
     vic: "玩家 @p 获得了胜利!"
     game_start: "游戏开始! 当前游戏：Sumo !"
-
+BuildUhc:
+  - "Future city#1"
+"Future city#1":
+  spawn:
+    a: "0:0:0"
+    b: "0:0:0"
+  scoreboard_title: "Sumo"
+  scoreboard:
+    - "存活人数: {livePlayers}"
+    - "blockpixel.cn"
+  vCmd:
+    - "say @p 赢得了比赛!"
+  dCmd:
+    - "say @p 输掉了比赛!"
+  message:
+    join: "玩家 @p 加入了房间 [@minPlayer/@maxPlayer]"
+    quit: "玩家 @p 退出了房间 [@minPlayer/@maxPlayer]"
+    mate: "匹配成功!"
+    death_usual: "玩家 @p 死亡了"
+    death: "玩家 @p 被 @d 撅掉了"
+    vic: "玩家 @p 获得了胜利!"
+    game_start: "游戏开始! 当前游戏：Sumo !"
